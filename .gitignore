@@ -13,6 +13,8 @@ client/.env.production
 # Build output
 client/dist/
 client/build/
+.vite/
+client/.vite/
 
 # Logs
 *.log
