@@ -27,7 +27,7 @@ const cardReveal = {
 
 export const ServicesSection = ({ onNavigate }) => {
   return (
-    <section className="h-full w-full px-4 py-5 sm:px-6 sm:py-6 md:px-8 flex flex-col items-center justify-center overflow-hidden bg-slate-50 relative select-none">
+    <section className="h-full w-full px-3.5 py-6 sm:px-6 sm:py-6 md:px-8 flex flex-col items-center justify-start md:justify-center overflow-y-auto overflow-x-hidden md:overflow-hidden bg-slate-50 relative select-none pb-24 md:pb-6">
       {/* Decorative ambient vectors (unique perspective grid style) */}
       <ServicesVectors />
 
@@ -41,13 +41,13 @@ export const ServicesSection = ({ onNavigate }) => {
         variants={containerVariants}
         initial="hidden"
         animate="visible"
-        className="max-w-3xl mx-auto w-full z-10 flex flex-col gap-5 my-auto"
+        className="max-w-3xl mx-auto w-full z-10 flex flex-col gap-4 sm:gap-5 my-auto py-2 sm:py-0"
       >
         {/* Section Header */}
-        <div className="text-center space-y-2">
+        <div className="text-center space-y-1.5 sm:space-y-2">
           <motion.div
             variants={itemVariants}
-            className="inline-flex items-center gap-2 px-3.5 py-1 rounded-full bg-indigo-100 text-indigo-700 text-xs font-bold tracking-widest uppercase border border-indigo-200"
+            className="inline-flex items-center gap-2 px-3 sm:px-3.5 py-1 rounded-full bg-indigo-100 text-indigo-700 text-[10px] sm:text-xs font-bold tracking-widest uppercase border border-indigo-200"
           >
             <Layers className="w-3.5 h-3.5" />
             <span>What We Do</span>
@@ -55,14 +55,14 @@ export const ServicesSection = ({ onNavigate }) => {
 
           <motion.h2
             variants={itemVariants}
-            className="text-3xl sm:text-4xl md:text-5xl font-extrabold font-display text-slate-900 tracking-tight"
+            className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-extrabold font-display text-slate-900 tracking-tight"
           >
             Our <span className="text-indigo-600">Services</span>
           </motion.h2>
 
           <motion.p
             variants={itemVariants}
-            className="text-sm sm:text-base text-slate-600 font-medium max-w-lg mx-auto"
+            className="text-xs sm:text-sm md:text-base text-slate-600 font-medium max-w-lg mx-auto px-2 sm:px-0"
           >
             End-to-end digital solutions designed to elevate your brand and grow your business online.
           </motion.p>
@@ -71,7 +71,7 @@ export const ServicesSection = ({ onNavigate }) => {
         {/* Services Grid — staggered grid reveal */}
         <motion.div
           variants={gridVariants}
-          className="grid grid-cols-1 sm:grid-cols-2 gap-4 sm:gap-5"
+          className="grid grid-cols-1 sm:grid-cols-2 gap-3 sm:gap-4 md:gap-5"
         >
           {SERVICES_DATA.map((srv, idx) => (
             <motion.div key={srv.id} variants={cardReveal}>

@@ -95,9 +95,9 @@ export const ContactForm = ({ initialFounderName = '' }) => {
   };
 
   return (
-    <div className="rounded-2xl glass-panel p-5 sm:p-6 border border-slate-200 bg-white shadow-sm">
-      <div className="mb-4">
-        <h3 className="text-lg font-bold font-display text-slate-900 flex items-center gap-2">
+    <div className="rounded-2xl glass-panel p-4 sm:p-5 md:p-6 border border-slate-200 bg-white shadow-xs sm:shadow-sm">
+      <div className="mb-3.5 sm:mb-4">
+        <h3 className="text-base sm:text-lg font-bold font-display text-slate-900 flex items-center gap-2">
           <span>Start a Conversation</span>
           <Sparkles className="w-4 h-4 text-indigo-600" />
         </h3>
@@ -105,7 +105,7 @@ export const ContactForm = ({ initialFounderName = '' }) => {
 
       {/* SUCCESS MESSAGE */}
       {status.success && (
-        <div className="mb-4 p-3 rounded-xl bg-emerald-50 border border-emerald-200 text-emerald-800 text-xs flex items-start gap-2.5">
+        <div className="mb-3 sm:mb-4 p-3 rounded-xl bg-emerald-50 border border-emerald-200 text-emerald-800 text-xs flex items-start gap-2.5">
           <CheckCircle2 className="w-4 h-4 text-emerald-600 shrink-0 mt-0.5" />
           <div>
             <p className="font-semibold text-emerald-900">Message Sent Successfully!</p>
@@ -116,7 +116,7 @@ export const ContactForm = ({ initialFounderName = '' }) => {
 
       {/* ERROR MESSAGE */}
       {status.error && (
-        <div className="mb-4 p-3 rounded-xl bg-rose-50 border border-rose-200 text-rose-800 text-xs flex items-start gap-2.5 font-sans">
+        <div className="mb-3 sm:mb-4 p-3 rounded-xl bg-rose-50 border border-rose-200 text-rose-800 text-xs flex items-start gap-2.5 font-sans">
           <AlertCircle className="w-4 h-4 text-rose-600 shrink-0 mt-0.5" />
           <div>
             <p className="font-semibold text-rose-900 font-sans">Unable to Send Message</p>
@@ -126,10 +126,10 @@ export const ContactForm = ({ initialFounderName = '' }) => {
       )}
 
       {/* CONTACT FORM */}
-      <form onSubmit={handleSubmit} className="space-y-3">
-        <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+      <form onSubmit={handleSubmit} className="space-y-2.5 sm:space-y-3">
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-2.5 sm:gap-3">
           <div>
-            <label className="block text-[10px] font-mono uppercase text-slate-500 font-semibold mb-1">
+            <label className="block text-[10px] sm:text-[11px] font-mono uppercase text-slate-500 font-semibold mb-1">
               Your Name <span className="text-rose-500">*</span>
             </label>
             <input
@@ -139,12 +139,12 @@ export const ContactForm = ({ initialFounderName = '' }) => {
               onChange={handleChange}
               placeholder="e.g. Sarah Jenkins"
               disabled={status.loading}
-              className="w-full px-3 py-2 rounded-lg bg-slate-50 border border-slate-200 text-slate-900 placeholder-slate-400 text-xs focus:outline-none focus:border-indigo-600 focus:bg-white transition-colors"
+              className="w-full px-3 py-2.5 sm:py-2 rounded-lg bg-slate-50 border border-slate-200 text-slate-900 placeholder-slate-400 text-xs sm:text-sm focus:outline-none focus:border-indigo-600 focus:bg-white transition-colors"
             />
           </div>
 
           <div>
-            <label className="block text-[10px] font-mono uppercase text-slate-500 font-semibold mb-1">
+            <label className="block text-[10px] sm:text-[11px] font-mono uppercase text-slate-500 font-semibold mb-1">
               Email Address <span className="text-rose-500">*</span>
             </label>
             <input
@@ -154,14 +154,14 @@ export const ContactForm = ({ initialFounderName = '' }) => {
               onChange={handleChange}
               placeholder="e.g. sarah@company.com"
               disabled={status.loading}
-              className="w-full px-3 py-2 rounded-lg bg-slate-50 border border-slate-200 text-slate-900 placeholder-slate-400 text-xs focus:outline-none focus:border-indigo-600 focus:bg-white transition-colors"
+              className="w-full px-3 py-2.5 sm:py-2 rounded-lg bg-slate-50 border border-slate-200 text-slate-900 placeholder-slate-400 text-xs sm:text-sm focus:outline-none focus:border-indigo-600 focus:bg-white transition-colors"
             />
           </div>
         </div>
 
-        <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-2.5 sm:gap-3">
           <div>
-            <label className="block text-[10px] font-mono uppercase text-slate-500 font-semibold mb-1">
+            <label className="block text-[10px] sm:text-[11px] font-mono uppercase text-slate-500 font-semibold mb-1">
               Phone Number
             </label>
             <input
@@ -171,12 +171,12 @@ export const ContactForm = ({ initialFounderName = '' }) => {
               onChange={handleChange}
               placeholder="e.g. +1 (555) 019-2834"
               disabled={status.loading}
-              className="w-full px-3 py-2 rounded-lg bg-slate-50 border border-slate-200 text-slate-900 placeholder-slate-400 text-xs focus:outline-none focus:border-indigo-600 focus:bg-white transition-colors"
+              className="w-full px-3 py-2.5 sm:py-2 rounded-lg bg-slate-50 border border-slate-200 text-slate-900 placeholder-slate-400 text-xs sm:text-sm focus:outline-none focus:border-indigo-600 focus:bg-white transition-colors"
             />
           </div>
 
           <div>
-            <label className="block text-[10px] font-mono uppercase text-slate-500 font-semibold mb-1">
+            <label className="block text-[10px] sm:text-[11px] font-mono uppercase text-slate-500 font-semibold mb-1">
               Interested Service
             </label>
             <select
@@ -184,7 +184,7 @@ export const ContactForm = ({ initialFounderName = '' }) => {
               value={formData.service}
               onChange={handleChange}
               disabled={status.loading}
-              className="w-full px-3 py-2 rounded-lg bg-slate-50 border border-slate-200 text-slate-900 text-xs focus:outline-none focus:border-indigo-600 focus:bg-white transition-colors"
+              className="w-full px-3 py-2.5 sm:py-2 rounded-lg bg-slate-50 border border-slate-200 text-slate-900 text-xs sm:text-sm focus:outline-none focus:border-indigo-600 focus:bg-white transition-colors"
             >
               <option value="Web Development & Design">Web Development & Design</option>
               <option value="Custom Web Applications">Custom Web Applications</option>
@@ -196,24 +196,24 @@ export const ContactForm = ({ initialFounderName = '' }) => {
         </div>
 
         <div>
-          <label className="block text-[10px] font-mono uppercase text-slate-500 font-semibold mb-1">
+          <label className="block text-[10px] sm:text-[11px] font-mono uppercase text-slate-500 font-semibold mb-1">
             Message <span className="text-rose-500">*</span>
           </label>
           <textarea
             name="message"
-            rows="3"
+            rows="2"
             value={formData.message}
             onChange={handleChange}
             placeholder="Tell us about your project goals or custom website requirements..."
             disabled={status.loading}
-            className="w-full px-3 py-2 rounded-lg bg-slate-50 border border-slate-200 text-slate-900 placeholder-slate-400 text-xs focus:outline-none focus:border-indigo-600 focus:bg-white transition-colors resize-none"
+            className="w-full px-3 py-2.5 sm:py-2 rounded-lg bg-slate-50 border border-slate-200 text-slate-900 placeholder-slate-400 text-xs sm:text-sm focus:outline-none focus:border-indigo-600 focus:bg-white transition-colors resize-none"
           />
         </div>
 
         <button
           type="submit"
           disabled={status.loading}
-          className="w-full py-2.5 rounded-xl bg-indigo-600 hover:bg-indigo-700 text-white font-semibold text-xs shadow-sm hover:shadow-md transition-all flex items-center justify-center gap-2 disabled:opacity-50"
+          className="w-full py-3 sm:py-2.5 rounded-xl bg-indigo-600 hover:bg-indigo-700 text-white font-semibold text-xs sm:text-sm shadow-sm hover:shadow-md transition-all flex items-center justify-center gap-2 disabled:opacity-50 active:scale-[0.99]"
         >
           {status.loading ? (
             <>

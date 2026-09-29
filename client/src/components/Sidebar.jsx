@@ -167,63 +167,102 @@ export const Sidebar = ({ activeSection, onNavigate, isCollapsed, onToggleCollap
       </aside>
 
       {/* Mobile Topbar */}
-      <header className="md:hidden fixed top-0 left-0 right-0 z-40 bg-white/95 backdrop-blur-md border-b border-slate-200 px-4 py-3 flex items-center justify-between shadow-sm">
-        <button onClick={() => onNavigate(1)} className="flex items-center gap-2">
-          <div className="w-8 h-8 rounded-lg bg-indigo-600 text-white flex items-center justify-center">
+      <header className="md:hidden fixed top-0 left-0 right-0 h-14 z-50 bg-white/95 backdrop-blur-md border-b border-slate-200/90 px-4 flex items-center justify-between shadow-xs">
+        <button
+          onClick={() => {
+            onNavigate(1);
+            setMobileMenuOpen(false);
+          }}
+          className="flex items-center gap-2.5 focus:outline-none"
+          aria-label="Go to Intro"
+        >
+          <div className="w-8 h-8 rounded-lg bg-indigo-600 text-white flex items-center justify-center shadow-xs">
             <Sparkles className="w-4 h-4" />
           </div>
-          <span className="text-sm font-bold font-display text-slate-900">
+          <span className="text-sm font-bold font-display text-slate-900 tracking-tight">
             {BRAND_CONFIG.name}
           </span>
         </button>
 
         <div className="flex items-center gap-2">
-          <span className="text-xs font-mono font-bold text-indigo-600 bg-indigo-50 px-2.5 py-1 rounded-md">
+          <span className="text-[11px] font-mono font-bold text-indigo-600 bg-indigo-50 border border-indigo-100 px-2 py-0.5 rounded-md">
             0{activeSection}/04
           </span>
           <button
             onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-            className="p-2 rounded-lg bg-slate-100 text-slate-700 hover:text-slate-900 focus:outline-none"
+            className="p-2 rounded-lg bg-slate-100 text-slate-700 hover:text-slate-900 focus:outline-none transition-colors"
+            aria-label={mobileMenuOpen ? 'Close Menu' : 'Open Menu'}
+            aria-expanded={mobileMenuOpen}
           >
             {mobileMenuOpen ? <X className="w-5 h-5" /> : <Menu className="w-5 h-5" />}
           </button>
         </div>
       </header>
 
-      {/* Mobile Drawer Menu */}
+      {/* Mobile Drawer Menu & Backdrop */}
       <AnimatePresence>
         {mobileMenuOpen && (
-          <motion.div
-            initial={{ opacity: 0, y: -8 }}
-            animate={{ opacity: 1, y: 0 }}
-            exit={{ opacity: 0, y: -8 }}
-            transition={{ duration: 0.18 }}
-            className="md:hidden fixed inset-x-0 top-14 z-40 bg-white border-b border-slate-200 p-4 shadow-xl space-y-2"
-          >
-            <div className="grid grid-cols-2 gap-2">
-              {NAV_ITEMS.map((item) => {
-                const Icon = item.icon;
-                return (
-                  <motion.button
-                    key={item.id}
-                    whileTap={{ scale: 0.96 }}
-                    onClick={() => {
-                      onNavigate(item.id);
-                      setMobileMenuOpen(false);
-                    }}
-                    className={`flex items-center gap-2 p-3 rounded-xl text-xs font-medium text-left ${
-                      activeSection === item.id
-                        ? 'bg-indigo-600 text-white font-semibold'
-                        : 'bg-slate-50 text-slate-700 hover:bg-slate-100'
-                    }`}
-                  >
-                    <Icon className="w-4 h-4 shrink-0" />
-                    <span>{item.label}</span>
-                  </motion.button>
-                );
-              })}
-            </div>
-          </motion.div>
+          <>
+            {/* Backdrop overlay */}
+            <motion.div
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              transition={{ duration: 0.15 }}
+              onClick={() => setMobileMenuOpen(false)}
+              className="md:hidden fixed inset-0 bg-slate-900/40 backdrop-blur-xs z-40"
+              aria-hidden="true"
+            />
+
+            {/* Menu Drawer */}
+            <motion.div
+              initial={{ opacity: 0, y: -10 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0, y: -10 }}
+              transition={{ duration: 0.2, ease: 'easeOut' }}
+              className="md:hidden fixed inset-x-0 top-14 z-50 bg-white border-b border-slate-200/90 p-4 shadow-2xl space-y-3"
+            >
+              <div className="grid grid-cols-2 gap-2">
+                {NAV_ITEMS.map((item) => {
+                  const Icon = item.icon;
+                  const isActive = activeSection === item.id;
+                  return (
+                    <motion.button
+                      key={item.id}
+                      whileTap={{ scale: 0.97 }}
+                      onClick={() => {
+                        onNavigate(item.id);
+                        setMobileMenuOpen(false);
+                      }}
+                      className={`flex items-center gap-2.5 p-3 rounded-xl text-xs font-medium text-left transition-colors ${
+                        isActive
+                          ? 'bg-indigo-600 text-white font-semibold shadow-xs'
+                          : 'bg-slate-50 text-slate-700 hover:bg-slate-100'
+                      }`}
+                    >
+                      <Icon className={`w-4 h-4 shrink-0 ${isActive ? 'text-white' : 'text-slate-500'}`} />
+                      <span>{item.label}</span>
+                    </motion.button>
+                  );
+                })}
+              </div>
+
+              {/* Mobile CTA Button */}
+              <div className="pt-2 border-t border-slate-100">
+                <motion.button
+                  whileTap={{ scale: 0.97 }}
+                  onClick={() => {
+                    onNavigate(4);
+                    setMobileMenuOpen(false);
+                  }}
+                  className="w-full py-2.5 px-3 rounded-xl bg-slate-900 text-white text-xs font-semibold flex items-center justify-center gap-2 shadow-xs transition-colors"
+                >
+                  <span>Start a Project</span>
+                  <ArrowUpRight className="w-3.5 h-3.5" />
+                </motion.button>
+              </div>
+            </motion.div>
+          </>
         )}
       </AnimatePresence>
     </>

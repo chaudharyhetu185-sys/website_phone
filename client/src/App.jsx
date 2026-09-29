@@ -13,8 +13,9 @@ export default function App() {
   const [targetFounder, setTargetFounder] = useState('');
   const [sidebarCollapsed, setSidebarCollapsed] = useState(false);
 
-  // Touch Swipe Gesture State
+  // Touch Swipe Gesture State (horizontal with vertical intent check)
   const touchStartX = useRef(null);
+  const touchStartY = useRef(null);
 
   const handleNavigate = (targetPage) => {
     if (targetPage < 1 || targetPage > 4 || targetPage === activeSection) return;
@@ -39,7 +40,7 @@ export default function App() {
   // Keyboard Navigation Support (ArrowRight = Next, ArrowLeft = Prev)
   useEffect(() => {
     const handleKeyDown = (e) => {
-      if (['INPUT', 'TEXTAREA'].includes(document.activeElement.tagName)) return;
+      if (['INPUT', 'TEXTAREA', 'SELECT'].includes(document.activeElement.tagName)) return;
 
       if (e.key === 'ArrowRight' || e.key === 'PageDown') {
         e.preventDefault();
@@ -54,18 +55,24 @@ export default function App() {
     return () => window.removeEventListener('keydown', handleKeyDown);
   }, [activeSection]);
 
-  // Touch Swipe Event Handlers
+  // Touch Swipe Event Handlers (prevent triggering slide if user is scrolling vertically)
   const handleTouchStart = (e) => {
-    if (['INPUT', 'TEXTAREA'].includes(document.activeElement.tagName)) return;
+    if (['INPUT', 'TEXTAREA', 'SELECT'].includes(document.activeElement.tagName)) return;
     touchStartX.current = e.touches[0].clientX;
+    touchStartY.current = e.touches[0].clientY;
   };
 
   const handleTouchEnd = (e) => {
-    if (!touchStartX.current || ['INPUT', 'TEXTAREA'].includes(document.activeElement.tagName)) return;
-    const touchEndX = e.changedTouches[0].clientX;
-    const diffX = touchStartX.current - touchEndX;
+    if (touchStartX.current === null || touchStartY.current === null) return;
+    if (['INPUT', 'TEXTAREA', 'SELECT'].includes(document.activeElement.tagName)) return;
 
-    if (Math.abs(diffX) > 50) {
+    const touchEndX = e.changedTouches[0].clientX;
+    const touchEndY = e.changedTouches[0].clientY;
+    const diffX = touchStartX.current - touchEndX;
+    const diffY = touchStartY.current - touchEndY;
+
+    // Only swipe if horizontal motion is significant and greater than vertical scroll
+    if (Math.abs(diffX) > 60 && Math.abs(diffX) > Math.abs(diffY) * 1.4) {
       if (diffX > 0) {
         handleNext(); // Swipe Left -> Next Page
       } else {
@@ -73,6 +80,7 @@ export default function App() {
       }
     }
     touchStartX.current = null;
+    touchStartY.current = null;
   };
 
   // Slide Animation Variants
@@ -119,7 +127,7 @@ export default function App() {
     <div
       onTouchStart={handleTouchStart}
       onTouchEnd={handleTouchEnd}
-      className="relative w-screen h-screen overflow-hidden bg-[#f8fafc] text-slate-900 select-none"
+      className="relative w-screen h-[100dvh] overflow-hidden bg-[#f8fafc] text-slate-900 select-none"
     >
       {/* Fixed Left Vertical Sidebar Navigation */}
       <Sidebar
@@ -129,32 +137,35 @@ export default function App() {
         onToggleCollapse={() => setSidebarCollapsed((c) => !c)}
       />
 
-      {/* Main Full-Screen Slide Container — margin adjusts with sidebar */}
+      {/* Main Slide Container — margin adjusts with sidebar on desktop */}
       <main
-        className="h-screen pt-14 md:pt-0 relative overflow-hidden transition-all duration-300 ease-in-out"
-        style={{ marginLeft: window.innerWidth >= 768 ? (sidebarCollapsed ? '4rem' : '16rem') : 0 }}
+        className={`h-full pt-14 md:pt-0 relative overflow-hidden transition-all duration-300 ease-in-out ${
+          sidebarCollapsed ? 'md:ml-16' : 'md:ml-64'
+        }`}
       >
-        {/* Lower Right Corner Next Section Button */}
-        <div className="absolute bottom-6 right-6 md:bottom-8 md:right-8 z-30 flex items-center gap-2">
+        {/* Floating Next / Previous Section Buttons */}
+        <div className="absolute bottom-4 right-4 sm:bottom-6 sm:right-6 md:bottom-8 md:right-8 z-30 flex items-center gap-2">
           {activeSection > 1 && (
             <button
               onClick={handlePrev}
-              className="p-2.5 rounded-2xl bg-white/95 hover:bg-slate-100 text-slate-700 border border-slate-200/90 shadow-md hover:shadow-lg backdrop-blur-md transition-all duration-200 group active:scale-95"
+              className="p-2.5 sm:p-3 rounded-2xl bg-white/95 hover:bg-slate-100 text-slate-700 border border-slate-200/90 shadow-md hover:shadow-lg backdrop-blur-md transition-all duration-200 group active:scale-95"
               title="Previous Section"
+              aria-label="Previous Section"
             >
               <ChevronRight className="w-4 h-4 text-slate-600 rotate-180 group-hover:-translate-x-0.5 transition-transform" />
             </button>
           )}
           <button
             onClick={() => handleNavigate(activeSection < 4 ? activeSection + 1 : 1)}
-            className="flex items-center justify-between gap-3 px-5 py-2.5 rounded-2xl bg-white/95 hover:bg-indigo-600 text-slate-700 hover:text-white border border-slate-200/90 shadow-lg hover:shadow-xl backdrop-blur-md text-xs font-semibold transition-all duration-300 group active:scale-95"
+            className="flex items-center justify-between gap-2.5 sm:gap-3 px-4 py-2.5 sm:px-5 sm:py-3 rounded-2xl bg-white/95 hover:bg-indigo-600 text-slate-700 hover:text-white border border-slate-200/90 shadow-lg hover:shadow-xl backdrop-blur-md text-xs font-semibold transition-all duration-300 group active:scale-95"
             title={activeSection < 4 ? `Go to Section 0${activeSection + 1}` : 'Back to Intro'}
+            aria-label={activeSection < 4 ? `Go to Section 0${activeSection + 1}` : 'Back to Intro'}
           >
             <span>
               {activeSection === 1 && 'Founders'}
               {activeSection === 2 && 'Services'}
               {activeSection === 3 && 'Contact'}
-              {activeSection === 4 && 'Top'}
+              {activeSection === 4 && 'Intro'}
             </span>
             {activeSection < 4 ? (
               <ArrowRight className="w-4 h-4 text-indigo-600 group-hover:text-white group-hover:translate-x-1 transition-all ml-1" />
