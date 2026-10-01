@@ -30,6 +30,7 @@ export const ContactForm = ({ initialFounderName = '' }) => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    if (status.loading) return; // Prevent duplicate submissions
 
     if (!formData.name.trim()) {
       setStatus({ loading: false, success: false, error: 'Please enter your name.', responseMsg: '' });

@@ -1,5 +1,4 @@
-tion", "Frontend Dev", "Brand Strategy"],
-    socials: {const founders = [
+const founders = [
   {
     _id: "founder-1",
     name: "Jyoti Judal",
@@ -11,7 +10,8 @@ tion", "Frontend Dev", "Brand Strategy"],
     email: "jyotijudal2006@gmail.com",
     phone: "9327663975",
     portfolio: "https://jyoti-s-portfolio.vercel.app/",
-    skills: ["UI/UX Design", "Creative Direc
+    skills: ["UI/UX Design", "Creative Direction", "Frontend Dev", "Brand Strategy"],
+    socials: {
       linkedin: "https://www.linkedin.com/in/jyoti-judal-a42600334?utm_source=share_via&utm_content=profile&utm_medium=member_android",
       email: "jyotijudal2006@gmail.com",
       phone: "9327663975",

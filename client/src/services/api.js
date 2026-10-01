@@ -3,14 +3,23 @@ import { FOUNDERS_DATA } from '../config/foundersConfig';
 import { MOCK_PROJECTS } from '../data/mockProjects';
 import { MOCK_REVIEWS } from '../data/mockReviews';
 
-const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || '/api';
+const getBaseUrl = () => {
+  const envUrl = import.meta.env.VITE_API_BASE_URL;
+  // If deployed in production on Vercel or any non-localhost host, prevent stale localhost URLs
+  if (typeof window !== 'undefined' && window.location.hostname !== 'localhost' && window.location.hostname !== '127.0.0.1') {
+    if (!envUrl || envUrl.includes('localhost') || envUrl.includes('127.0.0.1')) {
+      return '/api';
+    }
+  }
+  return envUrl || '/api';
+};
 
 const apiClient = axios.create({
-  baseURL: API_BASE_URL,
+  baseURL: getBaseUrl(),
   headers: {
     'Content-Type': 'application/json'
   },
-  timeout: 8000
+  timeout: 15000 // 15 seconds to allow SMTP handshake & delivery confirmation
 });
 
 export const fetchFounders = async () => {

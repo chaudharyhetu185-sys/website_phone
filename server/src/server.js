@@ -1,4 +1,11 @@
-require('dotenv').config();
+const path = require('path');
+const dotenv = require('dotenv');
+
+// Load environment variables from server/.env, root .env, or process.cwd()
+dotenv.config({ path: path.resolve(__dirname, '../.env') });
+dotenv.config({ path: path.resolve(__dirname, '../../.env') });
+dotenv.config();
+
 const app = require('./app');
 const { connectDB } = require('./config/db');
 const { verifySMTPTransporter } = require('./controllers/contactController');
